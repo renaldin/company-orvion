@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orvion — Studio Kreatif Digital</title>
+<link rel="icon" type="image/jpeg" href="./image/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-elev:#f5f5f8;
+    --surface:#ffffff;
+    --surface-2:#f0f0f5;
+    --border: rgba(10,10,20,0.10);
+    --text:#15151c;
+    --text-muted:#5a5a66;
+    --text-faint:#8c8c98;
+    --accent:#7c5cfc;
+    --accent-soft: rgba(124,92,252,0.10);
+    --accent-2:#059669;
+    --accent-2-soft: rgba(5,150,105,0.10);
+    --radius: 14px;
+    --maxw: 1180px;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--accent); color:#fff; }
+  a{ color:inherit; text-decoration:none; }
+  .msy{ font-family:'Material Symbols Outlined'; font-weight:400; font-style:normal; font-size:20px; line-height:1; vertical-align:middle; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent-2); display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 8px var(--accent-2); }
+  h1,h2,h3{ font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.02em; line-height:1.05; }
+  p{ color:var(--text-muted); line-height:1.65; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:999px; font-family:'Inter'; font-weight:500; font-size:14.5px;
+    cursor:pointer; border:1px solid transparent; transition: all .25s var(--ease);
+    white-space:nowrap;
+  }
+  .btn-primary{ background:var(--text); color:var(--bg); }
+  .btn-primary:hover{ background:var(--accent-2); color:#fff; transform:translateY(-2px); box-shadow:0 8px 24px rgba(5,150,105,.25); }
+  .btn-ghost{ background:transparent; color:var(--text); border-color:var(--border); }
+  .btn-ghost:hover{ border-color:var(--text); background:rgba(10,10,20,.04); }
+  .btn-outline-accent{ background:transparent; color:var(--accent-2); border:1px solid rgba(52,226,176,.35); }
+  .btn-outline-accent:hover{ background:var(--accent-2-soft); border-color:var(--accent-2); }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(38px);
+    filter:blur(3px);
+    transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
+    will-change: opacity, transform, filter;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); filter:blur(0); }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter: blur(14px) saturate(140%);
+    background:rgba(255,255,255,0.65);
+    border-bottom:1px solid transparent;
+    transition: border-color .3s, background .3s, padding .3s;
+  }
+  header.scrolled{ border-bottom-color:var(--border); background:rgba(255,255,255,0.88); }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:var(--maxw); margin:0 auto; transition:padding .3s; }
+  header.scrolled nav{ padding:13px 32px; }
+  .logo{ display:flex; align-items:center; gap:9px; font-family:'Space Grotesk'; font-weight:700; font-size:19px; letter-spacing:-.01em; }
+  .logo .mark{
+    width:30px; height:30px; border-radius:8px;
+    object-fit: cover;
+    animation: spin 6s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .navlinks{ display:flex; align-items:center; gap:2px; }
+  .navitem{ position:relative; }
+  .navlink{ display:flex; align-items:center; gap:4px; padding:10px 14px; font-size:14.5px; color:var(--text-muted); border-radius:8px; cursor:pointer; transition:color .2s, background .2s; }
+  .navlink:hover, .navlink.active{ color:var(--text); background:rgba(10,10,20,.05); }
+  .navlink .msy{ font-size:16px; transition:transform .25s var(--ease); }
+  .navitem:hover .navlink .msy{ transform:rotate(180deg); }
+  .dropdown{
+    position:absolute; top:calc(100% + 10px); left:50%; transform:translate(-50%,8px);
+    width:460px; background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    padding:10px; opacity:0; pointer-events:none; transition:opacity .22s var(--ease), transform .22s var(--ease);
+    box-shadow:0 20px 50px rgba(20,20,35,.14);
+  }
+  .navitem:hover .dropdown{ opacity:1; pointer-events:auto; transform:translate(-50%,0); }
+  .dropdown-grid{ display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+  .dropdown-item{ display:flex; gap:12px; padding:12px; border-radius:10px; transition:background .2s; }
+  .dropdown-item:hover{ background:rgba(10,10,20,.05); }
+  .dropdown-item .msy{ font-size:20px; color:var(--accent-2); margin-top:2px; }
+  .dropdown-item b{ display:block; font-size:13.5px; font-weight:600; margin-bottom:2px; }
+  .dropdown-item span{ font-size:12px; color:var(--text-faint); line-height:1.4; }
+  .navright{ display:flex; align-items:center; gap:10px; }
+  .navlink-simple{ font-size:14.5px; color:var(--text-muted); padding:10px 14px; border-radius:8px; }
+  .navlink-simple:hover{ color:var(--text); }
+  @media (max-width:920px){ .navlinks, .navlink-simple{ display:none; } }
+
+  /* ---------- MOBILE MENU ---------- */
+  .menu-toggle{
+    display:none; align-items:center; justify-content:center;
+    width:40px; height:40px; border-radius:9px; border:1px solid var(--border);
+    background:transparent; color:var(--text); cursor:pointer; flex-shrink:0;
+  }
+  .menu-toggle .msy{ font-size:22px; transition:transform .25s var(--ease); }
+  .menu-toggle:hover{ background:rgba(10,10,20,.05); }
+  @media (max-width:920px){ .menu-toggle{ display:flex; } .navright > .btn-primary{ display:none; } }
+
+  .mobile-menu{
+    display:none; flex-direction:column; gap:2px;
+    position:fixed; top:70px; left:16px; right:16px; z-index:99;
+    background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    padding:10px; box-shadow:0 20px 50px rgba(20,20,35,.16);
+    opacity:0; transform:translateY(-10px) scale(.98); transform-origin:top center;
+    transition:opacity .25s var(--ease), transform .25s var(--ease);
+    pointer-events:none;
+  }
+  @media (max-width:920px){ .mobile-menu{ display:flex; } }
+  .mobile-menu.open{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  .mobile-link{ padding:14px 12px; font-size:15.5px; color:var(--text); border-radius:10px; transition:background .2s; }
+  .mobile-link:hover, .mobile-link:active{ background:rgba(10,10,20,.05); }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center;
+    padding:24px; background:rgba(15,15,20,.55); backdrop-filter:blur(6px);
+    opacity:0; pointer-events:none; transition:opacity .3s var(--ease);
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:auto; }
+  .modal-box{
+    position:relative; width:100%; max-width:520px; max-height:86vh; overflow-y:auto;
+    background:var(--surface); border:1px solid var(--border); border-radius:22px;
+    padding:40px; box-shadow:0 30px 80px rgba(15,15,25,.28);
+    opacity:0; transform:translateY(18px) scale(.97); transition:opacity .32s var(--ease), transform .32s var(--ease);
+  }
+  .modal-overlay.open .modal-box{ opacity:1; transform:translateY(0) scale(1); }
+  .modal-close{
+    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; border:1px solid var(--border);
+    background:transparent; color:var(--text-muted); cursor:pointer; transition:all .2s;
+  }
+  .modal-close:hover{ background:rgba(10,10,20,.05); color:var(--text); }
+  .modal-icon{
+    width:56px; height:56px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+    background:var(--accent-soft); margin-bottom:18px;
+  }
+  .modal-icon .msy{ font-size:28px; color:var(--accent); }
+  .modal-box .eyebrow{ margin-bottom:12px; }
+  .modal-box h3{ font-size:25px; margin-bottom:12px; }
+  .modal-box > p{ font-size:15px; margin-bottom:18px; }
+  .modal-highlights{ list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; }
+  .modal-highlights li{ display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text-muted); }
+  .modal-highlights li .msy{ font-size:18px; color:var(--accent-2); margin-top:1px; flex-shrink:0; }
+  @media (max-width:520px){ .modal-box{ padding:28px; border-radius:18px; } }
+
+  /* ---------- HERO ---------- */
+  .hero{ position:relative; padding:180px 32px 120px; overflow:hidden; }
+  .hero-orb{
+    position:absolute; top:-200px; left:50%; translate:-50% 0;
+    width:900px; height:900px; border-radius:50%;
+    background: radial-gradient(circle at 50% 50%, rgba(124,92,252,.35), rgba(52,226,176,.12) 45%, transparent 70%);
+    filter:blur(30px); animation: pulse 8s ease-in-out infinite; z-index:0;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:.7; scale:1; } 50%{ opacity:1; scale:1.06; } }
+  .hero-inner{ position:relative; z-index:2; max-width:var(--maxw); margin:0 auto; text-align:center; }
+  .hero h1{ font-size:clamp(38px, 6vw, 72px); margin:22px auto 0; max-width:820px; }
+  .hero h1 .grad{ background:linear-gradient(100deg, var(--accent-2), var(--accent) 70%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero p.lead{ font-size:18px; max-width:560px; margin:22px auto 0; }
+  .hero-ctas{ display:flex; gap:12px; justify-content:center; margin-top:34px; }
+  .hero-ctas .btn{ padding:13px 26px; font-size:15px; }
+
+  .hero-stage{
+    position:relative; margin:70px auto 0; max-width:920px; height:420px;
+    border-radius:20px; border:1px solid var(--border);
+    background:linear-gradient(160deg, var(--surface), var(--bg-elev));
+    overflow:hidden; cursor:none; isolation:isolate;
+  }
+  .hero-stage::before{
+    content:''; position:absolute; inset:0;
+    background-image: linear-gradient(rgba(10,10,20,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,20,.06) 1px, transparent 1px);
+    background-size:36px 36px; mask-image:radial-gradient(ellipse at center, black 40%, transparent 78%);
+  }
+  .stage-glyph{
+    position:absolute; color:var(--text-faint); opacity:.5; animation: float 6s ease-in-out infinite;
+  }
+  .stage-glyph .msy{ font-size:26px; }
+  @keyframes float{ 0%,100%{ transform:translateY(0px); } 50%{ transform:translateY(-14px); } }
+  .stage-center{
+    position:absolute; top:50%; left:50%; translate:-50% -50%;
+    display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;
+  }
+  .stage-center .msy{ font-size:42px; color:var(--accent-2); }
+  .stage-center .tag{ font-family:'JetBrains Mono'; font-size:12.5px; color:var(--text-faint); letter-spacing:.04em; }
+  .cursor-dot{
+    position:fixed; width:10px; height:10px; border-radius:50%; background:var(--accent-2);
+    pointer-events:none; z-index:9999; transform:translate(-50%,-50%); box-shadow:0 0 14px var(--accent-2);
+    transition: opacity .2s; opacity:0; display:none;
+  }
+  .cursor-trail-icon{
+    position:fixed; pointer-events:none; z-index:9998; color:var(--accent); opacity:0;
+    transform:translate(-50%,-50%); transition:opacity .4s ease;
+  }
+
+  /* ---------- ORVION MOTION TEXT ---------- */
+  .stage-motion{
+    position:absolute; inset:0; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:14px; padding:20px;
+    perspective:800px;
+  }
+  .orvion-glow{
+    position:absolute; top:50%; left:50%; translate:-50% -50%;
+    width:560px; height:560px; border-radius:50%;
+    background: radial-gradient(circle, rgba(124,92,252,.22), rgba(52,226,176,.08) 45%, transparent 65%);
+    filter: blur(28px);
+    opacity:0; animation: glowIn 1.4s var(--ease) forwards;
+    animation-delay: 550ms; pointer-events:none; z-index:0;
+  }
+  @keyframes glowIn{ to{ opacity:1; } }
+  .orvion-gif{
+    position:relative; z-index:2;
+    display:block;
+    max-width:clamp(220px, 30vw, 320px);
+    max-height:280px;
+    width:auto; height:auto;
+    border-radius:14px;
+    mix-blend-mode:screen;
+    filter: drop-shadow(0 12px 36px rgba(124,92,252,.28));
+    opacity:0;
+    transform-origin: center center;
+    animation:
+      gifIn 1s var(--ease) forwards 220ms,
+      spin 6s linear infinite 1.2s;
+  }
+  @keyframes gifIn{ to{ opacity:1; } }
+  .orvion-text{
+    position:relative; z-index:2;
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size:clamp(64px, 12vw, 140px);
+    letter-spacing:-0.045em; line-height:1;
+    display:flex; gap:clamp(1px, .35vw, 5px);
+    background: linear-gradient(100deg, var(--accent-2) 0%, var(--accent) 55%, var(--accent-2) 100%);
+    background-size: 220% auto;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation: gradShift 7s ease-in-out infinite;
+  }
+  .orvion-letter{
+    display:inline-block;
+    opacity:0; transform: scale(.35) translateY(22px);
+    filter: blur(10px);
+    animation: letterIn .9s var(--ease) forwards;
+    animation-delay: calc(var(--i) * 95ms + 220ms);
+  }
+  @keyframes letterIn{
+    0%   { opacity:0; transform: scale(.35) translateY(22px); filter: blur(10px); }
+    55%  { opacity:1; transform: scale(1.18) translateY(-5px); filter: blur(0); }
+    80%  { transform: scale(.96) translateY(0); }
+    100% { opacity:1; transform: scale(1) translateY(0); filter: blur(0); }
+  }
+  .orvion-underline{
+    position:relative; z-index:2;
+    width:0; height:3px; border-radius:999px;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    box-shadow: 0 0 18px rgba(124,92,252,.45), 0 0 4px rgba(52,226,176,.5);
+    animation: underlineGrow 1.1s var(--ease) forwards;
+    animation-delay: 950ms;
+  }
+  @keyframes underlineGrow{ to{ width: clamp(200px, 30vw, 340px); } }
+  .orvion-tagline{
+    position:relative; z-index:2;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--text-faint);
+    opacity:0; transform:translateY(8px);
+    animation: taglineIn .8s var(--ease) forwards;
+    animation-delay: 1150ms;
+  }
+  .orvion-tagline::before,
+  .orvion-tagline::after{
+    content:''; display:inline-block; width:24px; height:1px;
+    background:var(--border); vertical-align:middle; margin:0 12px;
+  }
+  @keyframes taglineIn{ to{ opacity:1; transform:translateY(0); } }
+  .orvion-shine{
+    position:absolute; top:0; left:-80%; height:100%; width:60%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
+    transform: skewX(-20deg);
+    animation: shineSweep 3.2s ease-in-out infinite;
+    animation-delay: 1.6s;
+    pointer-events:none; mix-blend-mode:overlay;
+    -webkit-mask-image: linear-gradient(100deg, var(--accent-2), var(--accent));
+            mask-image: linear-gradient(100deg, var(--accent-2), var(--accent));
+  }
+  @keyframes shineSweep{
+    0%   { left:-80%; }
+    55%  { left:130%; }
+    100% { left:130%; }
+  }
+
+  /* ---------- SECTION INTRO ---------- */
+  .intro{ padding:50px 32px 100px; text-align:center; }
+  .intro p{ font-size:22px; color:var(--text); max-width:760px; margin:0 auto; font-family:'Space Grotesk'; font-weight:400; line-height:1.5; }
+  .intro .grad{ background:linear-gradient(100deg, var(--accent-2), var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:600; }
+
+  /* ---------- SERVICES (product rows) ---------- */
+  .services{ padding:20px 32px 130px; }
+  .service-row{
+    display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center;
+    padding:70px 0; border-top:1px solid var(--border);
+  }
+  .service-row:first-of-type{ border-top:none; }
+  .service-row.rev .service-copy{ order:2; }
+  .service-row.rev .service-visual{ order:1; }
+  .service-copy .eyebrow{ margin-bottom:16px; }
+  .service-copy h3{ font-size:30px; margin-bottom:14px; }
+  .service-copy p{ font-size:15.5px; max-width:420px; }
+  .service-copy .btn{ margin-top:22px; }
+  .service-visual{
+    position:relative; height:280px; border-radius:18px; border:1px solid var(--border);
+    background:linear-gradient(150deg, var(--surface-2), var(--bg-elev));
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .service-visual .msy{ font-size:88px; color:var(--text-faint); opacity:.35; transition:transform .5s var(--ease), color .5s; }
+  .service-row:hover .service-visual .msy{ transform:scale(1.12) rotate(-4deg); color:var(--accent-2); opacity:.7; }
+  .service-visual .glow{ position:absolute; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle, var(--accent-soft), transparent 70%); filter:blur(10px); }
+  .service-illo{ position:relative; z-index:1; width:82%; height:82%; transition:transform .5s var(--ease); }
+  .service-row:hover .service-illo{ transform:scale(1.06) rotate(-1.5deg); }
+  @media (max-width:820px){ .service-row, .service-row.rev{ grid-template-columns:1fr; } .service-row.rev .service-copy, .service-row.rev .service-visual{ order:unset; } }
+
+  /* ---------- CASES ---------- */
+  .cases{ padding:60px 32px 120px; text-align:center; }
+  .cases h2{ font-size:36px; margin-bottom:10px; }
+  .cases > p{ max-width:520px; margin:0 auto 50px; font-size:15.5px; }
+  .case-tabs{ display:flex; justify-content:center; gap:10px; margin-bottom:34px; flex-wrap:wrap; }
+  .case-tab{ padding:9px 18px; border-radius:999px; border:1px solid var(--border); font-size:13.5px; color:var(--text-muted); cursor:pointer; transition:all .2s; }
+  .case-tab.active, .case-tab:hover{ color:var(--text); border-color:var(--accent-2); background:var(--accent-2-soft); }
+  .case-viewer{
+    position:relative; max-width:900px; margin:0 auto; height:460px; border-radius:20px; overflow:hidden;
+    border:1px solid var(--border); background:var(--surface);
+  }
+  .case-panel{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end;
+    padding:44px; text-align:left; opacity:0; transition:opacity .5s var(--ease); pointer-events:none;
+    color:#fff;
+    background:
+      linear-gradient(0deg, rgba(0,0,0,.75), rgba(0,0,0,.15) 55%),
+      linear-gradient(135deg, var(--case-a,#221a3d), var(--case-b,#0d2b24));
+  }
+  .case-panel.active{ opacity:1; pointer-events:auto; }
+  .case-illo{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:.9; }
+  .case-text{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-start; }
+  .case-panel .msy.play{
+    position:absolute; top:44px; right:44px; font-size:22px; width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+    border-radius:50%; border:1px solid rgba(255,255,255,.3); background:rgba(0,0,0,.3); cursor:pointer; transition:all .25s;
+  }
+  .case-panel .msy.play:hover{ background:var(--accent-2); color:#0a0a0d; transform:scale(1.08); }
+  .case-panel h3{ font-size:26px; margin-bottom:8px; }
+  .case-panel p{ max-width:440px; color:#dcdce2; font-size:14.5px; }
+  .case-panel a.link{ margin-top:16px; display:inline-flex; align-items:center; gap:6px; font-size:13.5px; color:#5eead4; }
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{ padding:0 32px 130px; display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:var(--maxw); margin:0 auto; }
+  .cta-card{
+    border-radius:20px; padding:44px; border:1px solid var(--border); position:relative; overflow:hidden;
+    background:var(--surface);
+  }
+  .cta-card.grad{ background:linear-gradient(145deg, rgba(124,92,252,.16), rgba(52,226,176,.08)); }
+  .cta-card .tag{ font-family:'JetBrains Mono'; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-2); }
+  .cta-card h3{ font-size:26px; margin:14px 0 20px; }
+  @media (max-width:820px){ .cta-band{ grid-template-columns:1fr; } }
+
+  /* ---------- BLOG CAROUSEL ---------- */
+  .blog{ padding:20px 32px 130px; }
+  .blog-head{ display:flex; justify-content:space-between; align-items:flex-end; max-width:var(--maxw); margin:0 auto 28px; }
+  .blog-head h2{ font-size:30px; }
+  .carousel-controls{ display:flex; gap:8px; }
+  .carousel-controls .msy{ width:38px; height:38px; display:flex; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:50%; cursor:pointer; transition:all .2s; }
+  .carousel-controls .msy:hover{ border-color:var(--accent-2); color:var(--accent-2); }
+  .blog-track{ display:flex; gap:20px; overflow-x:auto; scroll-behavior:smooth; max-width:var(--maxw); margin:0 auto; padding-bottom:8px; scrollbar-width:none; }
+  .blog-track::-webkit-scrollbar{ display:none; }
+  .blog-card{
+    flex:0 0 300px; border-radius:16px; border:1px solid var(--border); background:var(--surface);
+    overflow:hidden; transition:transform .3s var(--ease), border-color .3s;
+  }
+  .blog-card:hover{ transform:translateY(-6px); border-color:rgba(124,92,252,.4); }
+  .blog-card .thumb{ height:150px; background:linear-gradient(135deg, var(--bthumb-a,#231a3f), var(--bthumb-b,#0d2b24)); display:flex; align-items:center; justify-content:center; }
+  .blog-card .thumb .msy{ font-size:34px; color:rgba(255,255,255,.55); }
+  .blog-card .thumb svg{ width:64%; height:64%; }
+  .blog-card .body{ padding:18px; }
+  .blog-card .cat{ font-family:'JetBrains Mono'; font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent-2); }
+  .blog-card h4{ font-family:'Space Grotesk'; font-size:15.5px; font-weight:600; margin:10px 0 6px; line-height:1.35; }
+  .blog-card .date{ font-size:12px; color:var(--text-faint); }
+
+  /* ---------- TEXT STAGGER ANIMATION ---------- */
+  .sw-parent .sw{
+    display:inline-block; opacity:0; transform:translateY(.55em); filter:blur(5px);
+    transition:opacity .75s var(--ease), transform .75s var(--ease), filter .75s var(--ease);
+    will-change:opacity, transform, filter;
+  }
+  .sw-parent.sw-in .sw{ opacity:1; transform:translateY(0); filter:blur(0); }
+  .hero h1 .grad, .intro .grad{
+    background-size:220% auto;
+    animation: gradShift 7s ease-in-out infinite;
+  }
+  @keyframes gradShift{ 0%,100%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } }
+
+  /* ---------- FOOTER CTA ---------- */
+  .footer-cta{ text-align:center; padding:60px 32px 90px; }
+  .footer-cta h2{ font-size:38px; margin-bottom:26px; }
+  .footer-cta .btns{ display:flex; gap:12px; justify-content:center; }
+
+  footer{ border-top:1px solid var(--border); padding:60px 32px 30px; }
+  .footer-grid{ max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:1.4fr repeat(3, 1fr); gap:40px; }
+  .footer-grid h5{ font-size:12.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); margin-bottom:16px; font-weight:600; }
+  .footer-grid a{ display:block; font-size:14px; color:var(--text-muted); padding:6px 0; transition:color .2s; }
+  .footer-grid a:hover{ color:var(--text); }
+  .footer-bottom{ max-width:var(--maxw); margin:40px auto 0; padding-top:24px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--text-faint); flex-wrap:wrap; gap:12px; }
+  @media (max-width:820px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Tutup"><span class="msy">close</span></button>
+    <div class="modal-icon"><span class="msy" id="modalIcon">auto_awesome</span></div>
+    <div class="eyebrow" id="modalTag">Tag</div>
+    <h3 id="modalTitle">Judul</h3>
+    <p id="modalBody">Deskripsi.</p>
+    <ul class="modal-highlights" id="modalHighlights"></ul>
+    <a href="#kontak" class="btn btn-primary" id="modalCta">Konsultasi Gratis <span class="msy" style="font-size:16px;">arrow_forward</span></a>
+  </div>
+</div>
+
+<header id="siteHeader">
+  <nav>
+    <a href="#" class="logo reveal"><img src="./image/logo.png" alt="Orvion" class="mark">Orvion</a>
+    <div class="navlinks">
+      <a href="#" class="navlink-simple reveal">Home</a>
+      <a href="#layanan" class="navlink-simple reveal">Layanan</a>
+      <a href="#kontak" class="navlink-simple reveal">Kontak</a>
+    </div>
+    <div class="navright">
+      <a href="#kontak" class="btn btn-primary reveal">Mulai Proyek</a>
+      <button class="menu-toggle reveal" id="menuToggle" aria-label="Buka menu" aria-expanded="false">
+        <span class="msy" id="menuToggleIcon">menu</span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" class="mobile-link reveal">Home</a>
+    <a href="#layanan" class="mobile-link reveal">Layanan</a>
+    <a href="#kontak" class="mobile-link reveal">Kontak</a>
+    <a href="#kontak" class="btn btn-primary reveal" style="justify-content:center; margin-top:8px;">Mulai Proyek</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-inner">
+    <div class="eyebrow reveal" style="justify-content:center;">Studio kreatif digital</div>
+    <h1 class="reveal">Rasakan lepas landas <span class="grad">kreativitas digital</span> bersama Orvion</h1>
+    <p class="lead reveal">Orvion memadukan strategi, desain, dan produksi konten dalam satu alur kerja — dibangun untuk brand yang ingin bergerak cepat tanpa mengorbankan kualitas.</p>
+    <div class="hero-ctas reveal">
+      <a href="#kontak" class="btn btn-primary">Mulai Proyek <span class="msy">arrow_forward</span></a>
+      <a href="#kasus" class="btn btn-ghost">Lihat Portofolio</a>
+    </div>
+
+    <div class="hero-stage reveal" id="heroStage">
+      <div class="stage-glyph" style="top:14%; left:10%; animation-delay:.2s;"><span class="msy">palette</span></div>
+      <div class="stage-glyph" style="top:70%; left:14%; animation-delay:1.1s;"><span class="msy">brush</span></div>
+      <div class="stage-glyph" style="top:20%; left:82%; animation-delay:.6s;"><span class="msy">movie</span></div>
+      <div class="stage-glyph" style="top:76%; left:80%; animation-delay:1.6s;"><span class="msy">layers</span></div>
+      <div class="stage-glyph" style="top:45%; left:6%; animation-delay:2s;"><span class="msy">gradient</span></div>
+      <div class="stage-glyph" style="top:50%; left:90%; animation-delay:.9s;"><span class="msy">draw</span></div>
+      <div class="stage-glyph" style="top:10%; left:48%; animation-delay:1.4s;"><span class="msy">photo_camera</span></div>
+      <div class="stage-glyph" style="top:82%; left:46%; animation-delay:.4s;"><span class="msy">design_services</span></div>
+
+      <div class="stage-motion">
+        <div class="orvion-glow"></div>
+        <img src="./image/logo.png" alt="Orvion" class="orvion-gif">
+        <div class="orvion-underline"></div>
+        <div class="orvion-tagline">Creative Digital Studio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="intro reveal">
+  <p>Orvion adalah studio kreatif digital kami, memungkinkan setiap brand untuk <span class="grad">membangun tanpa batas</span> di era konten serba cepat.</p>
+</section>
+
+<section class="services" id="layanan">
+  <div class="wrap">
+
+    <div class="service-row reveal">
+      <div class="service-copy">
+        <div class="eyebrow reveal">Orvion Studio</div>
+        <h3 class="reveal">Command center untuk semua proyek kreatif Anda</h3>
+        <p class="reveal">Kelola banyak proyek sekaligus, kelompokkan brief ke dalam workspace, dan otomatiskan pekerjaan rutin lewat jadwal produksi yang jelas.</p>
+        <a href="#" class="btn btn-outline-accent reveal" data-modal="studio">Pelajari lebih lanjut <span class="msy" style="font-size:16px;">arrow_forward</span></a>
+      </div>
+      <div class="service-visual"><div class="glow"></div>
+        <svg class="service-illo" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c5cfc"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs>
+          <rect x="40" y="30" width="320" height="220" rx="14" fill="none" stroke="url(#g1a)" stroke-width="2" opacity="0.5"/>
+          <rect x="40" y="30" width="320" height="36" rx="14" fill="url(#g1a)" opacity="0.12"/>
+          <circle cx="58" cy="48" r="4" fill="#7c5cfc"/><circle cx="72" cy="48" r="4" fill="#059669"/><circle cx="86" cy="48" r="4" fill="#8c8c98"/>
+          <rect x="56" y="86" width="70" height="140" rx="8" fill="url(#g1a)" opacity="0.10"/>
+          <rect x="70" y="102" width="42" height="6" rx="3" fill="#7c5cfc" opacity="0.5"/>
+          <rect x="70" y="122" width="42" height="6" rx="3" fill="#8c8c98" opacity="0.4"/>
+          <rect x="70" y="142" width="42" height="6" rx="3" fill="#8c8c98" opacity="0.4"/>
+          <rect x="70" y="162" width="42" height="6" rx="3" fill="#8c8c98" opacity="0.4"/>
+          <rect x="144" y="90" width="200" height="60" rx="10" fill="url(#g1a)" opacity="0.14"/>
+          <polyline points="158,130 180,110 202,124 224,96 246,116 268,102 290,118 312,104 328,112" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="144" y="164" width="94" height="52" rx="10" fill="url(#g1a)" opacity="0.12"/>
+          <rect x="250" y="164" width="94" height="52" rx="10" fill="url(#g1a)" opacity="0.12"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="service-row rev reveal">
+      <div class="service-copy">
+        <div class="eyebrow reveal">Orvion Motion</div>
+        <h3 class="reveal">Produksi motion &amp; video yang ringan dan cepat</h3>
+        <p class="reveal">Tim produksi ramping untuk menghasilkan video kampanye, reels, dan motion graphic tanpa proses bolak-balik yang panjang.</p>
+        <a href="#" class="btn btn-outline-accent reveal" data-modal="motion">Pelajari lebih lanjut <span class="msy" style="font-size:16px;">arrow_forward</span></a>
+      </div>
+      <div class="service-visual"><div class="glow"></div>
+        <svg class="service-illo" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c5cfc"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs>
+          <rect x="50" y="34" width="300" height="170" rx="14" fill="url(#g2a)" opacity="0.10"/>
+          <rect x="50" y="34" width="300" height="170" rx="14" fill="none" stroke="url(#g2a)" stroke-width="2" opacity="0.45"/>
+          <circle cx="200" cy="119" r="34" fill="#0a0a0d" opacity="0.06"/>
+          <circle cx="200" cy="119" r="34" fill="none" stroke="url(#g2a)" stroke-width="2"/>
+          <polygon points="190,103 190,135 218,119" fill="#059669"/>
+          <rect x="50" y="222" width="300" height="30" rx="8" fill="url(#g2a)" opacity="0.10"/>
+          <rect x="62" y="230" width="60" height="14" rx="4" fill="#7c5cfc" opacity="0.6"/>
+          <rect x="128" y="230" width="90" height="14" rx="4" fill="#059669" opacity="0.5"/>
+          <rect x="224" y="230" width="46" height="14" rx="4" fill="#7c5cfc" opacity="0.4"/>
+          <rect x="276" y="230" width="60" height="14" rx="4" fill="#059669" opacity="0.35"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="service-row reveal">
+      <div class="service-copy">
+        <div class="eyebrow reveal">Orvion Toolkit</div>
+        <h3 class="reveal">Aset dan template siap pakai untuk tim Anda</h3>
+        <p class="reveal">Sistem komponen visual yang bisa dipakai ulang tim internal — mempercepat iterasi tanpa mengorbankan konsistensi brand.</p>
+        <a href="#" class="btn btn-outline-accent reveal" data-modal="toolkit">Pelajari lebih lanjut <span class="msy" style="font-size:16px;">arrow_forward</span></a>
+      </div>
+      <div class="service-visual"><div class="glow"></div>
+        <svg class="service-illo" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c5cfc"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs>
+          <rect x="56" y="46" width="80" height="80" rx="12" fill="url(#g3a)" opacity="0.16"/>
+          <rect x="56" y="46" width="80" height="80" rx="12" fill="none" stroke="url(#g3a)" stroke-width="2" opacity="0.5"/>
+          <rect x="150" y="46" width="56" height="56" rx="10" fill="url(#g3a)" opacity="0.12"/>
+          <rect x="220" y="46" width="56" height="56" rx="10" fill="url(#g3a)" opacity="0.12"/>
+          <rect x="290" y="46" width="56" height="56" rx="10" fill="url(#g3a)" opacity="0.12"/>
+          <rect x="150" y="116" width="56" height="56" rx="10" fill="url(#g3a)" opacity="0.10"/>
+          <rect x="220" y="116" width="126" height="56" rx="10" fill="url(#g3a)" opacity="0.10"/>
+          <rect x="56" y="140" width="80" height="86" rx="12" fill="url(#g3a)" opacity="0.10"/>
+          <path d="M96 66 L101 80 L115 85 L101 90 L96 104 L91 90 L77 85 L91 80 Z" fill="#059669"/>
+          <path d="M280 190 L283 198 L291 201 L283 204 L280 212 L277 204 L269 201 L277 198 Z" fill="#7c5cfc"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="service-row rev reveal" style="border-bottom:1px solid var(--border);">
+      <div class="service-copy">
+        <div class="eyebrow reveal">Orvion Canvas</div>
+        <h3 class="reveal">Ruang kerja desain lengkap dengan brand system</h3>
+        <p class="reveal">Dilengkapi pustaka brand, panduan gaya, dan pemahaman mendalam terhadap identitas visual Anda dari awal hingga akhir.</p>
+        <a href="#" class="btn btn-outline-accent reveal" data-modal="canvas">Pelajari lebih lanjut <span class="msy" style="font-size:16px;">arrow_forward</span></a>
+      </div>
+      <div class="service-visual"><div class="glow"></div>
+        <svg class="service-illo" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g4a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c5cfc"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs>
+          <path d="M200 50 a90 90 0 1 0 90 90 c0 -14 -12 -20 -26 -20 h-14 c-16 0 -22 -20 -8 -30 l8 -6 c14 -10 8 -34 -10 -34 Z" fill="url(#g4a)" opacity="0.14" stroke="url(#g4a)" stroke-width="2"/>
+          <circle cx="168" cy="92" r="10" fill="#7c5cfc"/>
+          <circle cx="140" cy="130" r="10" fill="#059669"/>
+          <circle cx="150" cy="176" r="10" fill="#7c5cfc" opacity="0.7"/>
+          <circle cx="196" cy="196" r="10" fill="#059669" opacity="0.7"/>
+          <path d="M244 176 C 264 156, 284 136, 308 106" fill="none" stroke="url(#g4a)" stroke-width="10" stroke-linecap="round" opacity="0.5"/>
+          <path d="M300 96 l16 -14 6 6 -14 16 Z" fill="#7c5cfc"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cases reveal" id="kasus">
+  <h2 class="reveal">Dibangun untuk brand di era kreatif-digital</h2>
+  <p class="reveal">Orvion dipercaya baik oleh startup yang bergerak cepat, tim enterprise dengan sistem brand kompleks, maupun toko online yang butuh konten setiap minggu.</p>
+
+  <div class="case-tabs">
+    <div class="case-tab active reveal" data-case="0">Brand Startup</div>
+    <div class="case-tab reveal" data-case="1">Brand Enterprise</div>
+    <div class="case-tab reveal" data-case="2">Brand E-commerce</div>
+  </div>
+
+  <div class="case-viewer">
+    <div class="case-panel active" style="--case-a:#241a40; --case-b:#0d2b24;">
+      <svg class="case-illo" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <circle cx="720" cy="120" r="3" fill="#fff" opacity="0.5"/>
+        <circle cx="780" cy="200" r="2" fill="#fff" opacity="0.4"/>
+        <circle cx="660" cy="80" r="2" fill="#fff" opacity="0.4"/>
+        <circle cx="820" cy="90" r="2.4" fill="#fff" opacity="0.5"/>
+        <circle cx="600" cy="160" r="2" fill="#fff" opacity="0.35"/>
+        <g transform="translate(700,180) rotate(28)">
+          <path d="M0 -80 C 22 -50 26 0 14 46 L -14 46 C -26 0 -22 -50 0 -80 Z" fill="#5eead4" opacity="0.9"/>
+          <circle cx="0" cy="-24" r="10" fill="#0d2b24"/>
+          <path d="M-14 30 L -40 60 L -10 50 Z" fill="#34e2b0" opacity="0.85"/>
+          <path d="M14 30 L 40 60 L 10 50 Z" fill="#34e2b0" opacity="0.85"/>
+          <path d="M-8 46 L 0 90 L 8 46 Z" fill="#f9a86c" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="msy play">play_arrow</span>
+      <div class="case-text">
+        <h3 class="reveal">Brand Startup</h3>
+        <p class="reveal">Membangun identitas visual dan landing page dari nol dalam hitungan minggu, siap untuk peluncuran.</p>
+        <a href="#" class="link reveal" data-modal="startup">Lihat studi kasus <span class="msy" style="font-size:15px;">arrow_forward</span></a>
+      </div>
+    </div>
+    <div class="case-panel" style="--case-a:#1a2440; --case-b:#0d1f2b;">
+      <svg class="case-illo" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <g opacity="0.85">
+          <rect x="620" y="120" width="160" height="260" fill="#22345c"/>
+          <rect x="620" y="120" width="160" height="260" fill="none" stroke="#5eaefc" stroke-width="1.5" opacity="0.4"/>
+          <g fill="#5eaefc">
+            <rect x="638" y="140" width="18" height="18" opacity="0.8"/><rect x="670" y="140" width="18" height="18" opacity="0.5"/><rect x="702" y="140" width="18" height="18" opacity="0.8"/><rect x="734" y="140" width="18" height="18" opacity="0.5"/>
+            <rect x="638" y="172" width="18" height="18" opacity="0.5"/><rect x="670" y="172" width="18" height="18" opacity="0.8"/><rect x="702" y="172" width="18" height="18" opacity="0.5"/><rect x="734" y="172" width="18" height="18" opacity="0.8"/>
+            <rect x="638" y="204" width="18" height="18" opacity="0.8"/><rect x="670" y="204" width="18" height="18" opacity="0.5"/><rect x="702" y="204" width="18" height="18" opacity="0.8"/><rect x="734" y="204" width="18" height="18" opacity="0.5"/>
+            <rect x="638" y="236" width="18" height="18" opacity="0.5"/><rect x="670" y="236" width="18" height="18" opacity="0.8"/><rect x="702" y="236" width="18" height="18" opacity="0.5"/><rect x="734" y="236" width="18" height="18" opacity="0.8"/>
+          </g>
+          <rect x="740" y="60" width="90" height="320" fill="#1a2440"/>
+          <rect x="740" y="60" width="90" height="320" fill="none" stroke="#5eaefc" stroke-width="1.5" opacity="0.4"/>
+        </g>
+      </svg>
+      <span class="msy play">play_arrow</span>
+      <div class="case-text">
+        <h3 class="reveal">Brand Enterprise</h3>
+        <p class="reveal">Orvion membantu tim besar menjaga konsistensi visual lintas divisi dan kanal komunikasi.</p>
+        <a href="#" class="link reveal" data-modal="enterprise">Lihat studi kasus <span class="msy" style="font-size:15px;">arrow_forward</span></a>
+      </div>
+    </div>
+    <div class="case-panel" style="--case-a:#40241a; --case-b:#2b1f0d;">
+      <svg class="case-illo" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <g transform="translate(700,210)">
+          <path d="M-70 -20 L70 -20 L60 120 L-60 120 Z" fill="#f9c98c" opacity="0.9"/>
+          <path d="M-40 -20 C -40 -60 40 -60 40 -20" fill="none" stroke="#f6b25f" stroke-width="8"/>
+          <rect x="-50" y="10" width="40" height="40" rx="4" fill="#fff" opacity="0.35"/>
+          <rect x="10" y="10" width="40" height="40" rx="4" fill="#fff" opacity="0.25"/>
+          <rect x="-50" y="58" width="40" height="40" rx="4" fill="#fff" opacity="0.25"/>
+          <rect x="10" y="58" width="40" height="40" rx="4" fill="#fff" opacity="0.35"/>
+        </g>
+      </svg>
+      <span class="msy play">play_arrow</span>
+      <div class="case-text">
+        <h3 class="reveal">Brand E-commerce</h3>
+        <p class="reveal">Konten visual mingguan yang dirancang untuk mendorong konversi dan menjaga performa iklan.</p>
+        <a href="#" class="link reveal" data-modal="ecommerce">Lihat studi kasus <span class="msy" style="font-size:15px;">arrow_forward</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="cta-card grad reveal" id="harga">
+    <div class="tag reveal">Gratis untuk dicoba</div>
+    <h3 class="reveal">Untuk kreator individu</h3>
+    <p class="reveal" style="max-width:340px; margin-bottom:20px;">Mulai konsultasi awal tanpa biaya dan lihat sendiri bagaimana Orvion bekerja.</p>
+    <a href="#kontak" class="btn btn-primary reveal">Mulai Sekarang</a>
+  </div>
+  <div class="cta-card reveal" id="enterprise">
+    <div class="tag reveal">Kini tersedia</div>
+    <h3 class="reveal">Untuk organisasi</h3>
+    <p class="reveal" style="max-width:340px; margin-bottom:20px;">Tingkatkan seluruh tim Anda dengan sistem brand terpadu dan dukungan khusus.</p>
+    <a href="#kontak" class="btn btn-ghost reveal">Pelajari Lebih Lanjut</a>
+  </div>
+</div>
+
+<section class="blog reveal" id="blog">
+  <div class="blog-head">
+    <h2 class="reveal">Karya &amp; Cerita Terbaru</h2>
+    <div class="carousel-controls reveal">
+      <span class="msy" id="scrollLeft">keyboard_arrow_left</span>
+      <span class="msy" id="scrollRight">keyboard_arrow_right</span>
+    </div>
+  </div>
+  <div class="blog-track" id="blogTrack">
+    <div class="blog-card"><div class="thumb" style="--bthumb-a:#241a40; --bthumb-b:#0d2b24;">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="60" y="35" width="90" height="80" rx="8" fill="#fff" opacity="0.12"/>
+          <rect x="60" y="35" width="90" height="80" rx="8" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.35"/>
+          <rect x="150" y="45" width="90" height="80" rx="8" fill="#5eead4" opacity="0.85"/>
+          <circle cx="195" cy="85" r="18" fill="#0d2b24" opacity="0.25"/>
+        </svg>
+      </div><div class="body"><div class="cat reveal">Studi Kasus</div><h4 class="reveal">Rebrand penuh untuk klien retail dalam 6 minggu</h4><div class="date reveal">21 Jul 2026</div></div></div>
+    <div class="blog-card"><div class="thumb" style="--bthumb-a:#1a2440; --bthumb-b:#0d1f2b;">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="110" cy="75" r="26" fill="#fff" opacity="0.9"/>
+          <circle cx="150" cy="60" r="20" fill="#34e2b0" opacity="0.85"/>
+          <circle cx="185" cy="80" r="16" fill="#7c5cfc" opacity="0.85"/>
+          <circle cx="145" cy="105" r="13" fill="#f9a86c" opacity="0.85"/>
+        </svg>
+      </div><div class="body"><div class="cat reveal">Proses</div><h4 class="reveal">Bagaimana Orvion menyusun sistem brand yang konsisten</h4><div class="date reveal">19 Mei 2026</div></div></div>
+    <div class="blog-card"><div class="thumb" style="--bthumb-a:#40241a; --bthumb-b:#2b1f0d;">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="80" y="95" width="20" height="30" rx="3" fill="#fff" opacity="0.5"/>
+          <rect x="110" y="75" width="20" height="50" rx="3" fill="#fff" opacity="0.65"/>
+          <rect x="140" y="55" width="20" height="70" rx="3" fill="#fff" opacity="0.8"/>
+          <rect x="170" y="35" width="20" height="90" rx="3" fill="#34e2b0"/>
+          <path d="M80 90 L110 68 L140 48 L170 28 L200 18" stroke="#fff" stroke-width="2.5" fill="none" opacity="0.7"/>
+          <path d="M188 18 L200 18 L200 30" stroke="#fff" stroke-width="2.5" fill="none" opacity="0.7"/>
+        </svg>
+      </div><div class="body"><div class="cat reveal">Kampanye</div><h4 class="reveal">Konten mingguan yang menaikkan konversi 3x</h4><div class="date reveal">19 Mei 2026</div></div></div>
+    <div class="blog-card"><div class="thumb" style="--bthumb-a:#1a4030; --bthumb-b:#0d1a2b;">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="70" y="30" width="160" height="90" rx="6" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="70" y1="75" x2="230" y2="75" stroke="#fff" stroke-width="1" opacity="0.3"/>
+          <line x1="150" y1="30" x2="150" y2="120" stroke="#fff" stroke-width="1" opacity="0.3"/>
+          <rect x="150" y="30" width="80" height="45" rx="4" fill="#7c5cfc" opacity="0.5"/>
+          <rect x="70" y="75" width="80" height="45" rx="4" fill="#34e2b0" opacity="0.4"/>
+        </svg>
+      </div><div class="body"><div class="cat reveal">Insight</div><h4 class="reveal">Lima prinsip desain yang selalu kami pegang</h4><div class="date reveal">12 Mei 2026</div></div></div>
+    <div class="blog-card"><div class="thumb" style="--bthumb-a:#301a40; --bthumb-b:#1a2b0d;">
+        <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="80" y="60" width="130" height="55" rx="8" fill="#fff" opacity="0.15"/>
+          <path d="M80 60 L200 60 L215 40 L95 40 Z" fill="#fff" opacity="0.25"/>
+          <g stroke="#0d2b24" stroke-width="6" opacity="0.4">
+            <line x1="95" y1="50" x2="110" y2="40"/><line x1="120" y1="50" x2="135" y2="40"/><line x1="145" y1="50" x2="160" y2="40"/><line x1="170" y1="50" x2="185" y2="40"/>
+          </g>
+          <circle cx="145" cy="88" r="18" fill="none" stroke="#fff" stroke-width="3" opacity="0.6"/>
+          <circle cx="145" cy="88" r="8" fill="#fff" opacity="0.5"/>
+        </svg>
+      </div><div class="body"><div class="cat reveal">Studio</div><h4 class="reveal">Di balik layar: proses produksi video Orvion</h4><div class="date reveal">02 Mei 2026</div></div></div>
+  </div>
+</section>
+
+<section class="footer-cta reveal" id="kontak">
+  <div class="eyebrow reveal" style="justify-content:center; margin-bottom:18px;">Mulai hari ini</div>
+  <h2 class="reveal">Wujudkan ide kreatif Anda bersama Orvion</h2>
+  <div class="btns">
+    <a href="https://wa.me/628212051022?text=Halo%20Orvion%2C%20saya%20ingin%20konsultasi%20mengenai%20layanan%20yang%20ditawarkan." target="_blank" class="btn btn-primary reveal">Konsultasi Gratis</a>
+    <a href="#" class="btn btn-ghost reveal">Lihat Portofolio</a>
+  </div>
+</section>
+
+<footer class="reveal">
+  <div class="footer-grid">
+    <div>
+      <a href="#" class="logo reveal"><img src="./image/logo.png" alt="Orvion" class="mark">Orvion</a>
+      <p class="reveal" style="margin-top:14px; max-width:220px; font-size:13.5px;">Studio kreatif digital untuk brand yang ingin bergerak lebih cepat.</p>
+    </div>
+    <div>
+      <h5 class="reveal">Layanan</h5>
+      <a href="#" class="reveal">Orvion Studio</a>
+      <a href="#" class="reveal">Orvion Motion</a>
+      <a href="#" class="reveal">Orvion Toolkit</a>
+      <a href="#" class="reveal">Orvion Canvas</a>
+    </div>
+    <div>
+      <h5 class="reveal">Sumber Daya</h5>
+      <a href="#" class="reveal">Dokumentasi Proses</a>
+      <a href="#" class="reveal">Blog</a>
+      <a href="#" class="reveal">Studi Kasus</a>
+      <a href="#" class="reveal">Dukungan</a>
+    </div>
+    <div>
+      <h5 class="reveal">Perusahaan</h5>
+      <a href="#" class="reveal">Harga</a>
+      <a href="#" class="reveal">Untuk Perusahaan</a>
+      <a href="#" class="reveal">Tentang Kami</a>
+      <a href="#" class="reveal">Kontak</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="reveal">© 2026 Orvion. Seluruh hak cipta dilindungi.</span>
+    <span class="reveal">Privasi · Ketentuan Layanan</span>
+  </div>
+</footer>
+
+<script>
+  // header shrink on scroll
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 12);
+  });
+
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.2 });
+  revealEls.forEach(el => io.observe(el));
+  // hero reveals immediately on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), i * 120);
+    });
+  });
+  // fallback: kalau DOMContentLoaded telat, paksa reveal setelah 500ms
+  setTimeout(() => {
+    document.querySelectorAll('.hero .reveal:not(.in)').forEach(el => {
+      el.classList.add('in');
+    });
+  }, 500);
+
+  // ---------- text stagger animation ----------
+  // splits an element's text into per-word spans (keeping any child elements,
+  // like gradient-highlighted phrases, intact as a single animated unit)
+  function prepareStagger(el, step = 55){
+    const nodes = Array.from(el.childNodes);
+    el.innerHTML = '';
+    let i = 0;
+    nodes.forEach(node => {
+      if(node.nodeType === Node.TEXT_NODE){
+        node.textContent.split(/(\s+)/).forEach(part => {
+          if(part === '') return;
+          if(part.trim() === ''){
+            el.appendChild(document.createTextNode(part));
+          } else {
+            const span = document.createElement('span');
+            span.className = 'sw';
+            span.style.transitionDelay = (i * step) + 'ms';
+            span.textContent = part;
+            el.appendChild(span);
+            i++;
+          }
+        });
+      } else {
+        node.classList.add('sw');
+        node.style.transitionDelay = (i * step) + 'ms';
+        el.appendChild(node);
+        i++;
+      }
+    });
+    el.classList.add('sw-parent');
+  }
+
+  const staggerTargets = document.querySelectorAll(
+    '.hero h1, .intro p, .cases h2, .blog-head h2, .footer-cta h2, .service-copy h3, .cta-card h3, .case-panel h3'
+  );
+  staggerTargets.forEach(el => prepareStagger(el));
+
+  // ---------- cascade delay for sibling reveal elements ----------
+  // for any container that has multiple .reveal children, give each a small
+  // incrementing delay so they fade-up one after another (eyebrow -> h3 -> p -> btn)
+  function applyCascadeDelay(step = 90){
+    document.querySelectorAll(
+      '.service-row, .cta-card, .case-text, .blog-card, .footer-cta, .footer-grid > div, .dropdown-item'
+    ).forEach(container => {
+      const items = Array.from(container.querySelectorAll(':scope > .reveal'));
+      items.forEach((el, idx) => {
+        if(!el.style.transitionDelay) el.style.transitionDelay = (idx * step) + 'ms';
+      });
+    });
+    // standalone sibling groups
+    document.querySelectorAll('.blog-track').forEach(track => {
+      const cards = Array.from(track.querySelectorAll('.blog-card'));
+      cards.forEach((card, idx) => {
+        const inner = card.querySelectorAll('.reveal');
+        inner.forEach((el, j) => {
+          if(!el.style.transitionDelay) el.style.transitionDelay = (idx * 70 + j * 60) + 'ms';
+        });
+      });
+    });
+    document.querySelectorAll('.case-tabs').forEach(tabs => {
+      tabs.querySelectorAll('.reveal').forEach((el, idx) => {
+        if(!el.style.transitionDelay) el.style.transitionDelay = (idx * 80) + 'ms';
+      });
+    });
+    document.querySelectorAll('.footer-bottom').forEach(b => {
+      b.querySelectorAll('.reveal').forEach((el, idx) => {
+        if(!el.style.transitionDelay) el.style.transitionDelay = (idx * 100) + 'ms';
+      });
+    });
+    document.querySelectorAll('header .navright, .navlinks').forEach(group => {
+      group.querySelectorAll(':scope > * > .reveal, :scope > .reveal').forEach((el, idx) => {
+        if(!el.style.transitionDelay) el.style.transitionDelay = (idx * 70) + 'ms';
+      });
+    });
+  }
+  applyCascadeDelay();
+
+  const staggerIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('sw-in'); staggerIO.unobserve(e.target); } });
+  }, { threshold: 0.35 });
+  staggerTargets.forEach(el => { if(!el.closest('.hero')) staggerIO.observe(el); });
+
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.hero h1').forEach(el => setTimeout(() => el.classList.add('sw-in'), 150));
+  });
+
+  // cursor dot + trailing icons inside hero stage
+  const dot = document.getElementById('cursorDot');
+  const stage = document.getElementById('heroStage');
+  const trailIcons = ['brush','palette','movie','layers','auto_awesome','draw'];
+  let trailPool = [];
+  for(let i=0;i<6;i++){
+    const el = document.createElement('span');
+    el.className = 'cursor-trail-icon msy';
+    el.textContent = trailIcons[i];
+    el.style.fontSize = (14 + i*2) + 'px';
+    document.body.appendChild(el);
+    trailPool.push({el, x:0, y:0});
+  }
+  let mouseX = 0, mouseY = 0;
+  let positions = new Array(trailPool.length).fill(null).map(()=>({x:0,y:0}));
+
+  stage.addEventListener('mouseenter', () => { dot.style.display='block'; dot.style.opacity=1; trailPool.forEach(t=>t.el.style.opacity=.85); });
+  stage.addEventListener('mouseleave', () => { dot.style.opacity=0; trailPool.forEach(t=>t.el.style.opacity=0); });
+  window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function animateCursor(){
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+    let targetX = mouseX, targetY = mouseY;
+    positions.forEach((p, i) => {
+      p.x += (targetX - p.x) * 0.18;
+      p.y += (targetY - p.y) * 0.18;
+      targetX = p.x; targetY = p.y;
+      trailPool[i].el.style.left = p.x + 'px';
+      trailPool[i].el.style.top = p.y + 'px';
+    });
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // case tabs
+  const tabs = document.querySelectorAll('.case-tab');
+  const panels = document.querySelectorAll('.case-panel');
+  function revealPanel(panel){
+    panel.querySelectorAll('.reveal').forEach((el, i) => {
+      el.classList.remove('in');
+      // force reflow so transition re-triggers
+      void el.offsetWidth;
+      setTimeout(() => el.classList.add('in'), i * 90);
+    });
+  }
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const target = panels[tab.dataset.case];
+      target.classList.add('active');
+      revealPanel(target);
+    });
+  });
+
+  // blog carousel arrows
+  const track = document.getElementById('blogTrack');
+  document.getElementById('scrollRight').addEventListener('click', () => track.scrollBy({left: 320, behavior:'smooth'}));
+  document.getElementById('scrollLeft').addEventListener('click', () => track.scrollBy({left: -320, behavior:'smooth'}));
+
+  // mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const menuToggleIcon = document.getElementById('menuToggleIcon');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    menuToggleIcon.textContent = isOpen ? 'close' : 'menu';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggleIcon.textContent = 'menu';
+  }));
+
+  // ---------- modal ----------
+  const modalData = {
+    studio: {
+      icon: 'dashboard_customize',
+      tag: 'Orvion Studio',
+      title: 'Command center untuk semua proyek kreatif Anda',
+      body: 'Satu ruang kerja untuk mengelola seluruh proyek kreatif tim — dari brief awal, revisi, sampai file final. Cocok untuk tim yang menangani banyak klien atau kampanye sekaligus tanpa kehilangan jejak.',
+      highlights: [
+        'Kelompokkan brief ke dalam workspace per klien atau kampanye',
+        'Jadwal produksi otomatis dengan pengingat tenggat',
+        'Riwayat revisi tersimpan rapi, mudah ditelusuri kapan saja'
+      ]
+    },
+    motion: {
+      icon: 'movie',
+      tag: 'Orvion Motion',
+      title: 'Produksi motion & video yang ringan dan cepat',
+      body: 'Tim produksi ramping yang fokus pada kecepatan tanpa mengorbankan kualitas — ideal untuk brand yang butuh konten video rutin seperti reels, ads, atau materi kampanye musiman.',
+      highlights: [
+        'Proses bolak-balik revisi dipangkas lewat review terpusat',
+        'Template motion graphic siap disesuaikan dengan brand Anda',
+        'Waktu produksi rata-rata lebih singkat dari studio konvensional'
+      ]
+    },
+    toolkit: {
+      icon: 'auto_awesome',
+      tag: 'Orvion Toolkit',
+      title: 'Aset dan template siap pakai untuk tim Anda',
+      body: 'Kumpulan komponen visual yang bisa dipakai ulang oleh tim internal, sehingga setiap orang bisa menghasilkan materi baru dengan cepat tanpa harus mendesain dari nol setiap kali.',
+      highlights: [
+        'Pustaka komponen visual yang konsisten dengan brand system',
+        'Mempercepat iterasi materi marketing harian',
+        'Cocok dipakai tim non-desainer dengan panduan yang jelas'
+      ]
+    },
+    canvas: {
+      icon: 'palette',
+      tag: 'Orvion Canvas',
+      title: 'Ruang kerja desain lengkap dengan brand system',
+      body: 'Ruang kerja desain menyeluruh, lengkap dengan pustaka brand dan panduan gaya — membantu tim memahami identitas visual secara mendalam dari tahap konsep sampai eksekusi akhir.',
+      highlights: [
+        'Panduan gaya (style guide) terpusat dan selalu up to date',
+        'Pustaka brand mencakup warna, tipografi, hingga ikonografi',
+        'Alur kerja kolaboratif antara desainer dan stakeholder'
+      ]
+    },
+    startup: {
+      icon: 'rocket_launch',
+      tag: 'Studi Kasus — Brand Startup',
+      title: 'Identitas visual & landing page dari nol dalam hitungan minggu',
+      body: 'Sebuah startup tahap awal datang tanpa identitas visual sama sekali. Orvion membangun logo, sistem warna, dan landing page yang siap dipakai untuk peluncuran publik — dikerjakan dengan alur kerja yang cepat namun tetap matang.',
+      highlights: [
+        'Riset brand hingga logo final selesai dalam waktu singkat',
+        'Landing page responsif siap pakai untuk peluncuran',
+        'Sistem brand yang mudah dikembangkan seiring pertumbuhan'
+      ]
+    },
+    enterprise: {
+      icon: 'apartment',
+      tag: 'Studi Kasus — Brand Enterprise',
+      title: 'Menjaga konsistensi visual lintas divisi',
+      body: 'Organisasi besar dengan banyak divisi kerap kesulitan menjaga tampilan brand tetap konsisten. Orvion membantu menyatukan panduan visual dan alur kerja persetujuan, sehingga setiap kanal komunikasi tetap satu suara.',
+      highlights: [
+        'Satu sistem brand terpusat untuk seluruh divisi',
+        'Alur persetujuan materi yang lebih jelas dan terukur',
+        'Dukungan khusus untuk tim dengan kebutuhan skala besar'
+      ]
+    },
+    ecommerce: {
+      icon: 'storefront',
+      tag: 'Studi Kasus — Brand E-commerce',
+      title: 'Konten visual mingguan yang mendorong konversi',
+      body: 'Toko online membutuhkan konten segar setiap minggu untuk menjaga performa iklan. Orvion menyusun ritme produksi konten yang konsisten, dari foto produk hingga materi kampanye musiman.',
+      highlights: [
+        'Ritme produksi konten mingguan yang konsisten',
+        'Materi disesuaikan dengan performa iklan yang berjalan',
+        'Fokus pada visual yang mendorong konversi, bukan sekadar estetika'
+      ]
+    }
+  };
+
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalIcon = document.getElementById('modalIcon');
+  const modalTag = document.getElementById('modalTag');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const modalHighlights = document.getElementById('modalHighlights');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(key){
+    const data = modalData[key];
+    if(!data) return;
+    modalIcon.textContent = data.icon;
+    modalTag.textContent = data.tag;
+    modalTitle.textContent = data.title;
+    modalBody.textContent = data.body;
+    modalHighlights.innerHTML = '';
+    data.highlights.forEach(h => {
+      const li = document.createElement('li');
+      li.innerHTML = '<span class="msy">check_circle</span><span></span>';
+      li.querySelector('span:last-child').textContent = h;
+      modalHighlights.appendChild(li);
+    });
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('[data-modal]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal(el.dataset.modal);
+    });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+
+  // respect reduced motion
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('in');
+      el.style.transitionDelay = '0ms';
+    });
+    document.querySelectorAll('.sw-parent').forEach(el => {
+      el.classList.add('sw-in');
+      el.querySelectorAll('.sw').forEach(s => s.style.transitionDelay = '0ms');
+    });
+    dot.style.display = 'none';
+    trailPool.forEach(t => t.el.style.display = 'none');
+    document.querySelectorAll('.orvion-gif, .orvion-underline, .orvion-tagline, .orvion-letter').forEach(el => {
+      el.style.animation = 'none';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.filter = 'none';
+    });
+    document.querySelectorAll('.orvion-underline').forEach(el => {
+      el.style.width = 'clamp(200px, 30vw, 340px)';
+    });
+  }
+</script>
+
+</body>
+</html>
